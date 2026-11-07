@@ -55,3 +55,14 @@
 **Decision**: Turn off `purity`, `set-state-in-effect`, and `immutability` for `src/components/ui/**` only.
 **Why**: `progressive-carousel.tsx` is third-party code whose animation loop intentionally breaks these rules, and it works correctly.
 **Trade-off**: That folder gets lighter checking, so keep project code out of it.
+
+## 013: Custom site checks instead of separate tools
+**Decision**: One script checks the built site for removed URLs, SEO tags, and broken links.
+**Why**: No off-the-shelf tool does the removed-URL check, and keeping everything in one script gives a non-technical editor one plain-English failure list. Rules live in pure functions with tests.
+**Trade-off**: This is a small amount of code to own. External link checks fail only on 404 and 410, so flaky sites can't block publishing, and sites that refuse automated requests aren't checked.
+
+## 014: No required approvals on this repo
+**Decision**: No CODEOWNERS file and no required reviews. The owner can merge freely. Checks still run on every pull request.
+**Why**: The owner is the only editor, and GitHub doesn't let people approve their own pull requests, so required approval would only add friction.
+**Trade-off**: This pilot doesn't test the guide's approval flow. A multi-person repo like aircfo.com should add it back and rehearse it there.
+

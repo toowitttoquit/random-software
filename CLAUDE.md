@@ -11,8 +11,39 @@ pnpm preview    # Serve the built site on port 3009
 pnpm typecheck  # Type-check Astro, TypeScript, and MDX
 pnpm lint       # Run ESLint
 pnpm test       # Run unit tests
+pnpm check:site # Check the built site: URLs, SEO tags, broken links
 pnpm check      # Run all of the above in order. Run this before saying you're done.
 ```
+
+## Editing This Site
+
+Most edits come from plain-English requests by someone who isn't an engineer. Explain what you did in plain language, and link the preview.
+
+### How changes ship
+1. Never edit `main` directly. Work on a branch and open a pull request.
+2. Run `pnpm check` before saying you're done. If it fails, fix the cause or explain the failure plainly.
+3. Vercel posts a preview link on the pull request. Share it so the change can be seen before it goes live.
+4. Merging publishes the change.
+
+### Where things live
+| To change | Edit |
+|-----------|------|
+| A project's story | Body of `src/content/projects/[name].mdx` |
+| A project's title, description, images, or links | Frontmatter of the same file |
+| Project order | `order` in each project's frontmatter |
+| The manifesto | `src/content/pages/manifesto.mdx` |
+| The homepage headline | `src/pages/index.astro` |
+| The course page | `src/pages/build.astro` |
+
+### Voice
+First person, plain, and opinionated. Tell the story as frustration, then belief, then the decision to build. Avoid marketing speak and technical jargon. See `CONTENT_GUIDE.md` for section-by-section guidance, and `design/brand-guide.md` for the brand.
+
+### URL rules
+- **New page:** add its URL to `site-urls.json` in the same pull request.
+- **Moved or removed page:** add a permanent redirect to `vercel.json` and remove the URL from `site-urls.json` in the same pull request. `pnpm check` fails if a URL disappears without one.
+
+### Flag these in the pull request
+Content edits are routine. Say so explicitly when a change touches any of these, because they can affect the whole site: layout, navigation, redirects, `vercel.json`, `.github/`, `site-urls.json`, dependencies, or these rules.
 
 ## Architecture
 

@@ -2,6 +2,7 @@
   "name": "random-software",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "packageManager": "pnpm@10.11.1",
   "scripts": {
     "dev": "astro dev --port 3009",
@@ -10,7 +11,8 @@
     "lint": "eslint .",
     "typecheck": "astro check",
     "test": "vitest run",
-    "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build"
+    "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm check:site",
+    "check:site": "node scripts/check-site.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.1.3",
@@ -31,6 +33,7 @@
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "autoprefixer": "^10.4.21",
+    "cheerio": "^1.2.0",
     "eslint": "^9.38.0",
     "eslint-plugin-astro": "^3.2.1",
     "eslint-plugin-react-hooks": "^7.1.1",

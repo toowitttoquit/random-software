@@ -52,6 +52,10 @@ src/
     __tests__/            # Vitest tests
   styles/globals.css      # Global styles, .prose-site typography
 public/                   # favicon.ico, robots.txt
+scripts/                  # Post-build site checks and their tests
+site-urls.json            # Every public URL, guarded by the site check
+vercel.json               # Framework, URL behavior, redirects
+.github/                  # CI workflow and Dependabot
 ```
 
 ## Key Patterns
@@ -70,6 +74,9 @@ React islands can't use Astro's `<Image>`, so `getCarouselImages()` optimizes pr
 
 ### URLs
 `build.format: "file"` emits `manifesto.html`, and Vercel's `cleanUrls` and `trailingSlash: false` serve it at `/manifesto`. The site's canonical host is `www`.
+
+### Guardrails
+Every pull request runs `pnpm check` in GitHub Actions: type-checking, lint, tests, the build, then `scripts/check-site.ts` against the built site. Required frontmatter fields are enforced by `src/content.config.ts` during the build. The site check covers removed URLs, SEO tags, one h1 per page, internal links, and external links.
 
 ## Environment
 No environment variables required. This is a purely static site with no API routes, database, or auth.
