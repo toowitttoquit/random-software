@@ -7,7 +7,7 @@ import React, {
   type ReactNode,
   type FC,
 } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 interface ProgressSliderContextType {
@@ -78,6 +78,7 @@ export const ProgressSlider: FC<ProgressSliderProps> = ({
   const firstFrameTime = useRef<number>(performance.now());
   const targetValue = useRef<string | null>(null);
   const [sliderValues, setSliderValues] = useState<string[]>([]);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     const getChildren = React.Children.toArray(children).find(
@@ -96,7 +97,9 @@ export const ProgressSlider: FC<ProgressSliderProps> = ({
   }, [children]);
 
   useEffect(() => {
-    if (sliderValues.length > 0) {
+    // Reduced-motion visitors keep the tabs, but slides only change when they ask.
+    const shouldAnimate = isFastForward || !prefersReducedMotion;
+    if (sliderValues.length > 0 && shouldAnimate) {
       firstFrameTime.current = performance.now();
       frame.current = requestAnimationFrame(animate);
     }
@@ -104,7 +107,7 @@ export const ProgressSlider: FC<ProgressSliderProps> = ({
       cancelAnimationFrame(frame.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sliderValues, active, isFastForward]);
+  }, [sliderValues, active, isFastForward, prefersReducedMotion]);
 
   const animate = (now: number): void => {
     const currentDuration = isFastForward ? fastDuration : duration;

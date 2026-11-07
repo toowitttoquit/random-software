@@ -120,6 +120,17 @@ interface MobileMenuProps {
 
 function MobileMenu({ isOpen, onClose, galleryItems }: MobileMenuProps) {
   useEffect(() => {
+    if (!isOpen) return;
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") onClose();
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
+  useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -132,7 +143,7 @@ function MobileMenu({ isOpen, onClose, galleryItems }: MobileMenuProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-40 md:hidden transition-all duration-300 ${
+      className={`fixed inset-0 z-[60] md:hidden transition-all duration-300 ${
         isOpen ? "visible" : "invisible"
       }`}
     >
@@ -235,6 +246,7 @@ export function Navigation({ galleryItems }: NavigationProps) {
             className="md:hidden p-2 -mr-2 text-base-text/60 hover:text-base-text"
             onClick={() => setMobileMenuOpen(true)}
             aria-label="Open menu"
+            aria-expanded={mobileMenuOpen}
           >
             <svg
               className="w-6 h-6"
