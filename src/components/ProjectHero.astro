@@ -1,0 +1,26 @@
+---
+import { ProjectCarousel, type CarouselImage } from "./ProjectCarousel";
+
+interface Props {
+  title: string;
+  subtitle: string;
+  description: string;
+  images: CarouselImage[];
+  gradient: string;
+}
+
+const { title, subtitle, description, images, gradient } = Astro.props;
+---
+
+<div class="mb-16 rounded-lg border border-base-border bg-base-bg overflow-hidden md:shadow-xl">
+  <ProjectCarousel client:visible images={images} title={title} gradientFallback={gradient} priority />
+
+  <div class="px-5 py-6 sm:px-8 sm:py-8 md:px-10">
+    <h1 class="text-2xl sm:text-4xl md:text-display font-bold text-base-text mb-2">
+      {title}
+      {subtitle && <span class="text-base-text/40 ml-2 sm:ml-4 text-xl sm:text-3xl">{subtitle}</span>}
+    </h1>
+
+    <p class="text-base md:text-xl text-base-text/70 leading-relaxed max-w-2xl">{description}</p>
+  </div>
+</div>

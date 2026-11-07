@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Light theme - Gallery aesthetic */
+  --font-space-grotesk: "Space Grotesk Variable";
+  --background: #FAFAFA;
+  --foreground: #2C2C2C;
+
+  /* Brand colors */
+  --brand-green: #00B140;
+  --brand-coral: #FF6B5A;
+
+  /* Supporting colors */
+  --base-border: #E5E5E5;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition-property: color, background-color, border-color, transform, opacity, box-shadow;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in-out;
+}
+
+/* Remove transitions for reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0ms;
+  }
+}
+
+/* Restore list markers for MDX content */
+article ul {
+  list-style-type: disc;
+  list-style-position: outside;
+  padding-left: 1.5rem;
+}
+
+article ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+  padding-left: 1.5rem;
+}
+
+article li {
+  display: list-item;
+  padding-left: 0.5rem;
+}
+
+/* Markdown typography for content pages */
+@layer components {
+  .prose-site h1:not(.not-prose *) {
+    @apply text-3xl sm:text-4xl md:text-display font-bold text-base-text mb-6 text-pretty;
+  }
+
+  .prose-site h2:not(.not-prose *) {
+    @apply text-2xl font-bold text-base-text mb-4 mt-12;
+  }
+
+  .prose-site h3:not(.not-prose *) {
+    @apply text-xl font-semibold text-base-text mb-3;
+  }
+
+  .prose-site p:not(.not-prose *) {
+    @apply text-base-text/80 leading-relaxed mb-6;
+  }
+
+  .prose-site a:not(.not-prose *) {
+    @apply text-brand-green hover:text-brand-coral underline transition-colors;
+  }
+
+  .prose-site ul:not(.not-prose *) {
+    @apply list-disc list-outside text-base-text/80 mb-6 space-y-2;
+  }
+
+  .prose-site ol:not(.not-prose *) {
+    @apply list-decimal list-outside text-base-text/80 mb-4 space-y-2;
+  }
+
+  .prose-site li:not(.not-prose *) {
+    @apply text-base-text/80 leading-relaxed;
+  }
+
+  .prose-site blockquote:not(.not-prose *) {
+    @apply border-l-4 border-brand-coral pl-4 italic text-base-text/70 my-4;
+  }
+
+  .prose-site code:not(.not-prose *) {
+    @apply bg-base-text/5 px-1.5 py-0.5 rounded text-sm font-mono text-brand-green;
+  }
+
+  .prose-site pre:not(.not-prose *) {
+    @apply bg-base-text/5 p-4 rounded-lg overflow-x-auto mb-4 text-sm;
+  }
+}

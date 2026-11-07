@@ -1,0 +1,16 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Page not found" description="This page doesn't exist." noindex>
+  <main class="min-h-screen bg-base-bg pt-24">
+    <section class="max-w-4xl mx-auto px-6 py-20 text-center">
+      <p class="text-sm uppercase tracking-wider text-brand-coral font-medium mb-4">404</p>
+      <h1 class="text-3xl sm:text-5xl font-bold text-base-text mb-6">This page doesn't exist.</h1>
+      <a href="/" class="inline-flex items-center gap-2 text-brand-green hover:text-brand-green/80 font-medium">
+        Back to the gallery
+        <span aria-hidden="true">→</span>
+      </a>
+    </section>
+  </main>
+</BaseLayout>

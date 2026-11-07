@@ -3,9 +3,7 @@ import type { Config } from "tailwindcss";
 const config: Config = {
   safelist: ["grid-cols-2", "grid-cols-3", "grid-cols-4"],
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{astro,js,ts,jsx,tsx,md,mdx}",
   ],
   theme: {
     extend: {

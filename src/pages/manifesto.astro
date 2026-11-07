@@ -1,0 +1,17 @@
+---
+import { getEntry, render } from "astro:content";
+import ContentLayout from "@/layouts/ContentLayout.astro";
+
+const manifesto = await getEntry("pages", "manifesto");
+if (!manifesto) {
+  throw new Error("src/content/pages/manifesto.mdx is missing");
+}
+
+const { Content } = await render(manifesto);
+---
+
+<ContentLayout title={manifesto.data.title} description={manifesto.data.description}>
+  <div class="prose-site">
+    <Content />
+  </div>
+</ContentLayout>

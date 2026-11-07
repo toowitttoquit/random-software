@@ -1,73 +1,47 @@
 # Random Software
 
-A lightweight portfolio landing page showcasing various software projects and experiments.
-
-## Overview
-
-This is the main portfolio site at `random-software.com` that serves as a hub for all projects, with individual projects hosted on subdomains.
+A portfolio site showcasing software projects and experiments, live at [www.random-software.com](https://www.random-software.com). Individual projects are hosted on subdomains.
 
 ## Tech Stack
 
-- **Framework**: Next.js 16 (App Router)
+- **Framework**: Astro (fully static)
+- **Content**: MDX content collections
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **Deployment**: Vercel
 
 ## Getting Started
 
-### Prerequisites
-
-- Node.js 18+
-- npm or yarn
-
-### Installation
+Requires Node.js 24 and pnpm.
 
 ```bash
-# Install dependencies
-npm install
-
-# Run development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
+pnpm install
+pnpm dev      # http://localhost:3009
+pnpm check    # Type-check, lint, test, and build
 ```
-
-Open [http://localhost:3009](http://localhost:3009) to view the site.
 
 ## Project Structure
 
 ```
-random-software/
-├── app/
-│   ├── layout.tsx       # Root layout
-│   ├── page.tsx         # Home page with project cards
-│   └── globals.css      # Global styles
-├── public/              # Static assets
-├── PORTFOLIO_SETUP.md   # Setup guide
-└── next.config.ts       # Next.js configuration
+src/
+├── content/          # Projects and pages, as MDX files
+├── assets/           # Project images, optimized at build time
+├── components/       # Astro components and React islands
+├── layouts/          # Page shells and SEO tags
+├── lib/              # Helpers and their tests
+├── pages/            # Routes
+└── styles/           # Global CSS
+public/               # Files served as-is (favicon, robots.txt)
+context/              # Architecture, patterns, and decision docs
 ```
-
-## Projects
-
-- **Tekka (鉄火)**: AI-powered content processing system - [tekka.random-software.com](https://tekka.random-software.com)
-- More projects coming soon...
 
 ## Deployment
 
-This site is deployed on Vercel with automatic deployments from the main branch.
+Vercel builds a preview for every pull request and deploys `main` to production. Redirects and URL settings live in `vercel.json`.
 
-### Adding New Projects
+## Adding a Project
 
-1. Create a new project card in `app/page.tsx`
-2. Deploy your project to Vercel
-3. Add subdomain DNS record (CNAME to `cname.vercel-dns.com`)
-4. Configure subdomain in Vercel project settings
-
-See `PORTFOLIO_SETUP.md` for detailed deployment instructions.
+See `CONTENT_GUIDE.md`.
 
 ## License
 
