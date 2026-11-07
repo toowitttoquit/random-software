@@ -1,13 +1,14 @@
 # API Reference
 
-This is a static site with no API routes or server actions.
-
-All content is served via Next.js static rendering from MDX files and TypeScript config.
+This is a static site with no API routes or server actions. Every page is pre-built into HTML by Astro.
 
 ## Pages
 | Route | Source | Description |
 |-------|--------|-------------|
-| `/` | `app/page.tsx` | Homepage with hero and project cards |
-| `/build` | `app/build/page.tsx` | Course landing page (coming soon) |
-| `/manifesto` | `app/manifesto/page.mdx` | Manifesto essay |
-| `/projects/taru` | `app/projects/taru/page.mdx` | Taru project page |
+| `/` | `src/pages/index.astro` | Homepage with hero and project cards |
+| `/build` | `src/pages/build.astro` | Course landing page (coming soon) |
+| `/manifesto` | `src/content/pages/manifesto.mdx` | Manifesto essay |
+| `/projects/[id]` | `src/content/projects/[id].mdx` | Project pages (`taru`, `docket`) |
+| `/404` | `src/pages/404.astro` | Not found page |
+| `/sitemap-index.xml` | `@astrojs/sitemap` | Generated at build time |
+| `/robots.txt` | `public/robots.txt` | Crawler rules |

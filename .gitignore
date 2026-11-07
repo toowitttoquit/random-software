@@ -33,3 +33,7 @@ yarn-error.log*
 
 # Playwright MCP session logs
 .playwright-mcp/
+
+# Astro and Vercel local state
+.astro/
+.vercel/

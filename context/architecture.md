@@ -1,68 +1,75 @@
 # Architecture
 
 ## Stack
-- **Framework**: Next.js 16 with App Router
-- **Content**: MDX via @next/mdx
+- **Framework**: Astro 7, static output only
+- **Content**: MDX content collections, validated by `src/content.config.ts`
+- **Interactivity**: React islands for `Navigation` and `ProjectCarousel` only
 - **Styling**: Tailwind CSS 3 with custom design tokens
 - **Language**: TypeScript (strict mode)
-- **Font**: Space Grotesk (via next/font/google)
-- **Animations**: Motion (Framer Motion)
-- **Utilities**: clsx, tailwind-merge
-- **Package Manager**: pnpm
-- **Deployment**: Vercel
-- **Domain**: random-software.com
+- **Font**: Space Grotesk, self-hosted via Fontsource
+- **Animations**: Motion
+- **Images**: Astro image pipeline (sharp), WebP at build time
+- **Tests**: Vitest
+- **Package Manager**: pnpm, on Node 24
+- **Deployment**: Vercel, configured by `vercel.json`
+- **Domain**: www.random-software.com
 
 ## Directory Structure
 
 ```
-app/
-  layout.tsx              # Root layout (font, metadata, Navigation)
-  page.tsx                # Homepage (hero + project cards)
-  globals.css             # Global styles, CSS variables
+src/
+  content.config.ts       # Collection schemas (required fields)
+  content/
+    projects/             # One .mdx per project: frontmatter data + story
+    pages/                # Standalone pages (manifesto)
+  assets/projects/        # Project images, referenced from frontmatter
+  pages/
+    index.astro           # Homepage
+    build.astro           # "Vibecoding for Operators" course page
+    manifesto.astro       # Renders content/pages/manifesto.mdx
+    projects/[id].astro   # Renders each project
+    404.astro             # Not found page
+  layouts/
+    BaseLayout.astro      # <head>, SEO tags, Navigation, Footer
+    ContentLayout.astro   # Article wrapper for MDX pages
   components/
-    Navigation.tsx        # Shared nav (client component, gallery dropdown)
-    MDXLayout.tsx         # Content wrapper for MDX pages
-    ProjectCard.tsx       # Homepage project card (carousel + info)
-    ProjectCarousel.tsx   # Image carousel using progressive-carousel
-    ProjectHero.tsx       # Project detail page hero (carousel + info)
-    ProjectImage.tsx      # Responsive image with caption
-    ProjectLinks.tsx      # External link buttons (github/demo/docs)
-    DesignPrinciple.tsx   # Principle card for project pages
-  config/
-    projects.ts           # Centralized project data (single source of truth)
-    status.ts             # ProjectStatus type + status styling config
-  build/
-    page.tsx              # "Vibecoding for Operators" course page (coming soon)
-  manifesto/
-    layout.tsx            # MDX layout wrapper
-    page.mdx              # Manifesto essay
-  projects/
-    taru/
-      layout.tsx          # Metadata + MDX layout
-      page.mdx            # Taru project page
-
-components/
-  ui/
-    shine-border.tsx      # Animated border effect (homepage hero)
-    progressive-carousel.tsx  # Auto-advancing image carousel
-
-public/
-  images/projects/taru/   # Taru project screenshots
+    Navigation.tsx        # React island: gallery dropdown, mobile menu
+    ProjectCarousel.tsx   # React island: image carousel
+    Logo.tsx              # Rendered by Navigation
+    ProjectCard.astro     # Homepage card
+    ProjectHero.astro     # Project page hero
+    ProjectLinks.astro    # External link buttons
+    DesignPrinciple.astro # Principle card, used inside MDX
+    Footer.astro
+    ui/
+      ShineBorder.astro   # Animated border on the homepage hero
+      progressive-carousel.tsx  # Auto-advancing carousel primitive
+  lib/
+    projects.ts           # Collection queries, image optimization
+    project-order.ts      # Sorting logic
+    seo.ts                # Page titles, canonical URLs
+    utils.ts              # cn() class merging
+    __tests__/            # Vitest tests
+  styles/globals.css      # Global styles, .prose-site typography
+public/                   # favicon.ico, robots.txt
 ```
 
 ## Key Patterns
 
-### Navigation
-Single `Navigation` component in root layout. Gallery dropdown items auto-generated from `app/config/projects.ts` via `getGalleryItems()`. No manual nav updates needed when adding projects.
-
 ### Project Data Flow
-`app/config/projects.ts` is the single source of truth for project metadata. Homepage and navigation both read from it. To add a project: add an entry to the config, create the MDX page, and add images.
+Each `src/content/projects/*.mdx` file is the single source of truth for that project. The homepage, project page, nav, footer, and sitemap all read from the collection through `src/lib/projects.ts`.
 
-### MDX Pages
-Each MDX page needs a sibling `layout.tsx` that wraps children in `<MDXLayout>` and exports metadata. MDX component overrides are in root `mdx-components.tsx`.
+### Islands
+Astro sends no JavaScript by default. Components only ship JavaScript when they use a `client:` directive. `Navigation` uses `client:load` because it's visible immediately, and `ProjectCarousel` uses `client:visible`, so its animation starts when it scrolls into view. Both are also rendered to HTML at build time.
 
-### UI Components
-Root-level `components/ui/` contains third-party-style primitives (shine-border, progressive-carousel). App-level `app/components/` contains project-specific components.
+### Images
+React islands can't use Astro's `<Image>`, so `getCarouselImages()` optimizes project images at build time and passes the URLs in as props. Frontmatter uses the `image()` schema helper, so a wrong image path fails the build.
+
+### SEO
+`BaseLayout` sets the title, description, canonical URL, and social tags for every page. Titles go through `formatPageTitle()`, so pass only the page's own name.
+
+### URLs
+`build.format: "file"` emits `manifesto.html`, and Vercel's `cleanUrls` and `trailingSlash: false` serve it at `/manifesto`. The site's canonical host is `www`.
 
 ## Environment
 No environment variables required. This is a purely static site with no API routes, database, or auth.
@@ -70,7 +77,6 @@ No environment variables required. This is a purely static site with no API rout
 ## Local Development
 ```bash
 pnpm install
-pnpm run dev    # http://localhost:3009
-pnpm run build  # Production build
-pnpm run lint   # ESLint
+pnpm dev      # http://localhost:3009
+pnpm check    # Type-check, lint, test, and build
 ```

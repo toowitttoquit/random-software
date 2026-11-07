@@ -1,0 +1,35 @@
+---
+import { render } from "astro:content";
+import ProjectHero from "@/components/ProjectHero.astro";
+import ProjectLinks from "@/components/ProjectLinks.astro";
+import ContentLayout from "@/layouts/ContentLayout.astro";
+import { getCarouselImages, getProjects, type Project } from "@/lib/projects";
+
+interface Props {
+  project: Project;
+}
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project) => ({ params: { id: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const images = await getCarouselImages(project);
+---
+
+<ContentLayout title={project.data.title} description={project.data.description}>
+  <ProjectHero
+    title={project.data.title}
+    subtitle={project.data.subtitle}
+    description={project.data.description}
+    images={images}
+    gradient={project.data.gradient}
+  />
+  <ProjectLinks links={project.data.links} />
+  <div class="prose-site">
+    <Content />
+  </div>
+  <ProjectLinks links={project.data.links} />
+</ContentLayout>

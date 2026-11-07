@@ -1,0 +1,92 @@
+---
+title: Taru
+subtitle: 足
+description: An AI research assistant that helps you internalize the podcasts, articles, and newsletters you already consume — turning passive listening into a searchable, connected record of your own thinking.
+navLabel: Taru
+order: 2
+status: active
+tags: [AI, Python, FastAPI, Next.js]
+gradient: bg-gradient-to-br from-brand-green/20 to-brand-coral/20
+images:
+  - src: ../../assets/projects/taru/1-garden.png
+    alt: Explore your knowledge garden
+    label: Garden
+  - src: ../../assets/projects/taru/2-writing.png
+    alt: AI researcher copilot
+    label: Writing
+  - src: ../../assets/projects/taru/3-history.png
+    alt: Review recent content for insights
+    label: History
+links:
+  - label: Launch Taru
+    url: https://taru.random-software.com
+    type: demo
+  - label: View on GitHub
+    url: https://github.com/aicfo-2024/taru
+    type: github
+---
+
+import DesignPrinciple from "@/components/DesignPrinciple.astro";
+
+## Origin Story
+
+You subscribe to the right podcasts. You read the sharpest newsletters. You follow thinkers who genuinely change how you see the world. But when someone asks you about an idea you heard three weeks ago, you get the gist — maybe — and lose the details entirely.
+
+Bookmarks collect dust. Highlights sit in apps you never reopen. Note-taking systems demand more time than the content itself. The gap between what you consume and what you retain is enormous — and it widens every week.
+
+Podcasts are the worst offender: hours of rich conversation, locked behind audio, with no way to search, annotate, or retrieve the ideas inside.
+
+Existing knowledge management tools promised to solve this by automating everything: save it all, let AI summarize, search when you need it. But summaries aren't understanding. What I actually needed was a research partner — one that could help me process what I'd consumed and draw out what *I* thought about it, not just what the author said.
+
+I built Taru to be that partner. The name comes from the tsukubai inscription at Kyoto's Ryoan-ji Temple: 吾唯足知 — "I learn only to be contented." Depth over breadth. Sufficiency over accumulation.
+
+## Design Principles
+
+<div class="grid md:grid-cols-2 gap-6 my-12">
+  <DesignPrinciple
+    icon="🌱"
+    title="Starts After You've Consumed Something"
+    description="Most AI tools help you consume faster. Taru helps you hold onto what you've already consumed. It's not about reading more — it's about retaining what matters."
+  />
+
+  <DesignPrinciple
+    icon="🤝"
+    title="Asks What You Think"
+    description="Summaries are easy. Taru's reflection conversations draw out your perspective — what surprised you, what you disagree with, what connects to something you heard last month."
+  />
+
+  <DesignPrinciple
+    icon="🔍"
+    title="Compounds Over Time"
+    description="Your tenth capture is more valuable than your first. Taru surfaces contradictions in your thinking, unexpected connections between sources, and patterns in what resonates with you."
+  />
+
+  <DesignPrinciple
+    icon="🔐"
+    title="Earned Trust > Blind Delegation"
+    description="You wouldn't hand a human research assistant full autonomy on day one. Taru starts with more feedback, earns more autonomy over time as it demonstrates understanding of what matters to you."
+    variant="highlighted"
+  />
+</div>
+
+## What It Does
+
+### Capture
+
+Share a podcast, article, or newsletter from your phone or browser. Taru handles full transcription, deep AI analysis, and key insight extraction — all in minutes. Capture happens through a Telegram bot, iOS Shortcuts, or the web app.
+
+### Reflect
+
+When processing completes, Taru opens a short Socratic conversation. Not a summary — a dialogue. It asks what resonated, surfaces connections to things you've captured before, and helps you articulate your own take. This happens inline in Telegram or in the web app.
+
+### Remember
+
+Your reflections get indexed alongside the source material into a growing Knowledge Garden. Every insight is searchable, connected, and compounding — building a record of not just what you've consumed, but what you think.
+
+### Thought Partnership
+
+Once your garden has depth, Taru becomes a conversation partner. Share a half-formed idea, and it surfaces connections and contradictions from your own reading — not from generic internet sources, but from the sources *you* chose to follow.
+
+---
+
+The result: after months of use, you have an actual intellectual asset. A second brain that knows what you've read, how it connects, and can help you sharpen your thinking when you need it.

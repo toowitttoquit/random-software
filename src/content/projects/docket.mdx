@@ -1,0 +1,81 @@
+---
+title: The Docket
+description: "One event list to rule them all for SXSW regulars: plan your week, share your schedule, and link up with your people."
+navLabel: The Docket
+order: 1
+status: active
+tags: [Next.js, Supabase, Tailwind CSS, TypeScript]
+gradient: bg-gradient-to-br from-[#0BA03D]/20 to-[#F9CB0D]/20
+images:
+  - src: ../../assets/projects/docket/docket-home.png
+    alt: The Docket event feed showing trending SXSW events
+    label: Home
+links:
+  - label: Launch The Docket
+    url: https://docket.random-software.com
+    type: demo
+  - label: View on GitHub
+    url: https://github.com/toowitttoquit/docket
+    type: github
+---
+
+import DesignPrinciple from "@/components/DesignPrinciple.astro";
+
+## Origin Story
+
+If you've done SXSW more than once, you know the real challenge isn't finding things to do. It's the coordination tax. Every year, you're cross-referencing the official schedule with three unofficial spreadsheets, screenshotting Instagram stories, and firing off "what's the move?" texts into group chats that move faster than you can read them. You still end up missing the thing your friend told you about on Tuesday.
+
+The tools that exist make you pick a lane. Tech-only schedules ignore the showcase at Mohawk. Music guides skip the AI panel your cofounder is speaking at. But nobody actually lives in one lane during SXSW — you go from a founder breakfast to a film screening to a party on Rainey Street, all in the same day. The schedule is fluid. The tools should be too.
+
+I built The Docket because I wanted one place where my crew and I could plan the week together. Not another list to bookmark and forget — an actual shared schedule that bridges tech, music, film, parties, and everything in between. One link you can text to your group chat that says "here's my week, copy what you want."
+
+## Design Principles
+
+<div class="grid md:grid-cols-2 gap-6 my-12">
+  <DesignPrinciple
+    icon="👯"
+    title="Built for Crews, Not Individuals"
+    description="The best SXSW experiences happen with your people. Every feature — shareable dockets, one-tap schedule copying, public profiles — is designed to make coordination effortless."
+  />
+
+  <DesignPrinciple
+    icon="🌉"
+    title="Bridge, Don't Silo"
+    description="Tech and music aren't separate weeks — they're the same week. The Docket treats all programming as equal: panels, showcases, parties, film, and wellness live side by side."
+  />
+
+  <DesignPrinciple
+    icon="📱"
+    title="Festival-Ready"
+    description="You're using this on your phone, walking between venues, with one bar of signal. Every interaction is designed for thumbs, not mice — fast loads, big tap targets, and zero friction."
+  />
+
+  <DesignPrinciple
+    icon="🔥"
+    title="Let the Crowd Curate"
+    description="Events are sorted by saves, not editorial picks. What's popular rises. Your friends' dockets surface what matters. The schedule builds itself through the people you trust."
+    variant="highlighted"
+  />
+</div>
+
+## What It Does
+
+### Find What's Worth Going To
+
+A filterable feed of events sorted by what's trending across tech, music, film, parties, and wellness. Filter by category, vibe, date, and whether it's official or independent. Personalized onboarding means you see your kind of events first — but the full lineup is always one tap away.
+
+### Build Your Week
+
+Save events to your personal Docket — a day-by-day schedule with times, venues, RSVP links, and who else saved the same event. It's the schedule you'd build in a spreadsheet, except it actually works on your phone and updates in real time.
+
+### Share It, Copy It, Link Up
+
+This is the part that matters. Every Docket has a public URL. Text it to your group chat and friends can browse your whole week and copy your schedule in one tap. See what your crew is doing on the People page. Dynamic social cards make shared links look great. The coordination problem solves itself when everyone's schedule is visible.
+
+### Submit Events the Crowd Missed
+
+Know about an event that's not listed? Paste a URL and The Docket scrapes the details automatically. Organizers can claim their events to keep info current throughout the week. The best events often come from the community, not the official schedule.
+
+---
+
+Built for SXSW regulars who know the hardest part of the week isn't picking events — it's getting everyone to the same one.

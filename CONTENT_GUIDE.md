@@ -1,310 +1,131 @@
 # Content Management Guide
 
-This project uses MDX for managing written content. MDX allows you to write markdown with embedded React components.
+All written content is MDX: Markdown that can also include components. Content lives in `src/content/`, and each file's frontmatter (the block between the `---` lines) is checked against the rules in `src/content.config.ts`. A missing required field stops the build and names the file and field.
 
 ## Directory Structure
 
 ```
-app/
-├── manifesto/
-│   └── page.mdx          # Manifesto essay
-├── projects/
-│   └── taru/
-│       └── page.mdx      # Taru project page
-├── components/
-│   └── MDXLayout.tsx     # Shared layout for MDX pages
-content/                  # Optional: Store standalone MDX files here
-└── projects/             # Optional: Project-specific content
+src/
+├── content/
+│   ├── pages/
+│   │   └── manifesto.mdx     # Manifesto essay
+│   └── projects/
+│       ├── docket.mdx        # The Docket
+│       └── taru.mdx          # Taru
+└── assets/
+    └── projects/
+        ├── docket/           # Docket images
+        └── taru/             # Taru images
 ```
 
-## Creating a New Content Page
+## Writing Content
 
-### 1. Create the directory and file
+Standard Markdown works everywhere:
 
-```bash
-mkdir -p app/your-page
-touch app/your-page/page.mdx
-```
-
-### 2. Add the MDX layout
-
-Every MDX page needs to import and use the MDXLayout:
-
-```mdx
-import { MDXLayout } from "../components/MDXLayout";
-
-export default function YourPage({ children }) {
-  return <MDXLayout>{children}</MDXLayout>;
-}
-
-# Your Page Title
-
-Your content here...
-```
-
-### 3. Write your content
-
-MDX supports all standard markdown:
-
-- **Headings**: `# H1`, `## H2`, `### H3`
+- **Headings**: `## H2`, `### H3`
 - **Bold**: `**bold text**`
 - **Italic**: `*italic text*`
 - **Links**: `[text](url)`
 - **Lists**: `- item` or `1. item`
-- **Code**: `` `inline` `` or ` ```language ` for blocks
+- **Code**: `` `inline` `` or fenced blocks
 - **Quotes**: `> quote text`
+- **Images**: `![description](../../assets/projects/your-project/image.png)`
 
-### 4. Add React components (optional)
+Plain HTML also works in MDX. Use `class`, not `className`.
 
-You can embed JSX directly in your MDX:
-
-```mdx
-# My Page
-
-Regular markdown content here.
-
-<div className="bg-brand-green/10 p-6 rounded-lg">
-  <p className="text-brand-green">Custom styled component!</p>
-</div>
-
-More markdown here.
-```
-
-## Styling
-
-MDX components automatically use the styles defined in `mdx-components.tsx`. Available classes:
-
-- `text-base-text` - Main text color
-- `text-brand-green` - Brand green
-- `text-brand-coral` - Brand coral
-- `bg-base-bg` - Background color
-- `border-base-border` - Border color
+Markdown is styled by the `.prose-site` block in `src/styles/globals.css`.
 
 ## Creating a New Project Page
 
-Project pages follow a specific 3-section framework: **Origin Story → Design Principles → What It Does**
+Project pages follow a 3-section framework: **Origin Story → Design Principles → What It Does**
 
-### Quick Start
+1. Add images to `src/assets/projects/your-project/`
+2. Create `src/content/projects/your-project.mdx` from the template below
 
-1. **Create the project directory**:
-   ```bash
-   mkdir -p app/projects/your-project-name
-   ```
+That's all. The filename becomes the URL (`/projects/your-project`), and the homepage card, nav item, footer link, and sitemap entry all update automatically.
 
-2. **Create the layout file** (`app/projects/your-project-name/layout.tsx`):
-   ```tsx
-   import { MDXLayout } from "@/app/components/MDXLayout";
-   import type { Metadata } from "next";
-
-   export const metadata: Metadata = {
-     title: "Your Project - Random Software",
-     description: "One-line description of your project",
-   };
-
-   export default function YourProjectLayout({
-     children,
-   }: {
-     children: React.ReactNode;
-   }) {
-     return <MDXLayout>{children}</MDXLayout>;
-   }
-   ```
-
-3. **Create the page file** (`app/projects/your-project-name/page.mdx`) - use the template below
-
-4. **Add project images** to `public/images/projects/your-project-name/`
-
-### Project Page Template
-
-Copy this template to create a new project page:
+### Project Template
 
 ```mdx
-import { ProjectHero } from "@/app/components/ProjectHero";
-import { DesignPrinciple } from "@/app/components/DesignPrinciple";
-import { ProjectImage } from "@/app/components/ProjectImage";
-import { ProjectLinks } from "@/app/components/ProjectLinks";
+---
+title: Project Name
+subtitle: Optional secondary text
+description: A 1-2 sentence description, also used for search results and social previews.
+navLabel: Project Name
+order: 3
+status: active
+tags: [Technology, Stack, Keywords]
+gradient: bg-gradient-to-br from-brand-green/20 to-brand-coral/20
+images:
+  - src: ../../assets/projects/your-project/home.png
+    alt: What the screenshot shows
+    label: Home
+links:
+  - label: Launch Project
+    url: https://your-project.random-software.com
+    type: demo
+---
 
-<ProjectHero
-  title="Project Name"
-  subtitle="Optional Subtitle"
-  description="A 1-2 sentence philosophical description of what this project says or does."
-  status="active"
-  tags={["Technology", "Stack", "Keywords"]}
-  gradient="from-brand-green/20 to-brand-coral/20"
-/>
-
-<ProjectLinks
-  links={[
-    { label: "Launch Project", url: "https://your-project.com", type: "demo" },
-    { label: "View Source", url: "https://github.com/...", type: "github" },
-  ]}
-  layout="horizontal"
-/>
+import DesignPrinciple from "@/components/DesignPrinciple.astro";
 
 ## Origin Story
 
-Write 2-4 paragraphs about:
-- **Why you built this** - What frustration or gap led to its creation?
-- **The "aha" moment** - When did you realize this needed to exist?
-- **What you believed** - What should exist in the world that didn't?
-
-Use first-person voice ("I built this because..."). Be authentic and story-driven.
+Write 2-4 paragraphs in first person: why you built this, the "aha" moment, and what you believed should exist.
 
 ## Design Principles
 
-<div className="grid md:grid-cols-2 gap-6 my-12">
+<div class="grid md:grid-cols-2 gap-6 my-12">
   <DesignPrinciple
     icon="🎯"
     title="First Principle"
-    description="Explain the conscious decision you made. What trade-off did you embrace? What did you optimize for (and against)?"
+    description="The conscious decision you made, and the trade-off you embraced."
   />
 
   <DesignPrinciple
     icon="⚡"
     title="Second Principle"
-    description="Another core belief that shaped how you built this project."
-  />
-
-  <DesignPrinciple
-    icon="🧠"
-    title="Third Principle"
-    description="What makes your approach different from existing solutions?"
-  />
-
-  <DesignPrinciple
-    icon="🔗"
-    title="Fourth Principle"
-    description="Optional: Add 3-5 principles total. Be opinionated and clear."
+    description="Another core belief that shaped how you built this."
     variant="highlighted"
   />
 </div>
 
 ## What It Does
 
-### Feature Section 1
+### Feature Section
 
-Describe practical capabilities here. Keep it straightforward and functional.
-
-<ProjectImage
-  src="/images/projects/your-project/screenshot1.png"
-  alt="Description of what the screenshot shows"
-  caption="Optional caption explaining the image"
-/>
-
-### Feature Section 2
-
-Show the product in action. Use multiple subsections if needed.
-
-### Feature Section 3
-
-Explain how users interact with or benefit from this project.
-
-## Try It Out
-
-<ProjectLinks
-  links={[
-    { label: "Launch Project", url: "https://your-project.com", type: "demo" },
-    { label: "View Docs", url: "https://docs.your-project.com", type: "docs" },
-    { label: "GitHub", url: "https://github.com/...", type: "github" },
-  ]}
-  layout="horizontal"
-/>
-
-*Built with [Tech Stack] · Last updated: [Date]*
+Describe practical capabilities. Keep it straightforward.
 ```
 
-### Available Components
+### Frontmatter Fields
 
-#### ProjectHero
-Full-width hero section with image, status badge, and tags.
+| Field | Required | Notes |
+|-------|----------|-------|
+| `title` | Yes | Project name. Don't add "Random Software", which is appended automatically. |
+| `subtitle` | No | Secondary text beside the title |
+| `description` | Yes | Shown on the card and hero, and used for SEO |
+| `navLabel` | Yes | Text in the Gallery dropdown |
+| `order` | Yes | Whole number. Lower numbers appear first. |
+| `status` | Yes | `active`, `planned`, or `archived` |
+| `tags` | Yes | At least one |
+| `gradient` | Yes | Tailwind classes, shown if there are no images |
+| `images` | Yes | List of `src`, `alt`, `label`. Can be empty (`[]`). |
+| `links` | Yes | List of `label`, `url`, `type`. Shown above and below the story. Can be empty (`[]`). |
 
-**Props**:
-- `title` (required): Project name
-- `subtitle` (optional): Secondary text (e.g., Japanese characters)
-- `description` (required): 1-2 sentence description
-- `status` (required): "active" | "planned" | "archived"
-- `tags` (required): Array of technology/category tags
-- `imageSrc` (optional): Path to hero image (falls back to gradient)
-- `imageAlt` (optional): Alt text for image
-- `gradient` (optional): Tailwind gradient classes for fallback
+Link `type` is `github`, `demo`, `docs`, or `custom`.
 
-**Example**:
-```tsx
-<ProjectHero
-  title="Taru"
-  subtitle="樽"
-  description="AI-powered content processing"
-  status="active"
-  tags={["AI", "Python", "Next.js"]}
-  gradient="from-brand-green/20 to-brand-coral/20"
-/>
-```
+### DesignPrinciple
 
-**Note**: Use the separate `<ProjectLinks>` component after the hero for CTAs.
-
-#### DesignPrinciple
-Individual principle card for the Design Principles section.
-
-**Props**:
-- `icon` (optional): Emoji or React element
 - `title` (required): Principle name
 - `description` (required): 1-2 sentence explanation
-- `variant` (optional): "default" | "highlighted" (adds coral border)
-
-**Example**:
-```tsx
-<DesignPrinciple
-  icon="🎯"
-  title="Human Agency Over Automation"
-  description="We believe tools should augment, not replace, human decision-making."
-/>
-```
-
-#### ProjectImage
-Responsive image wrapper with caption support.
-
-**Props**:
-- `src` (required): Path to image (e.g., `/images/projects/taru/screenshot.png`)
-- `alt` (required): Accessibility description
-- `caption` (optional): Text displayed below image
-- `layout` (optional): "default" | "full-bleed" | "side-by-side"
-- `aspectRatio` (optional): "16/9" | "4/3" | "1/1" | "auto"
-
-**Example**:
-```tsx
-<ProjectImage
-  src="/images/projects/taru/dashboard.png"
-  alt="Taru dashboard showing RSS digest"
-  caption="Daily digest with AI summaries"
-  aspectRatio="16/9"
-/>
-```
-
-#### ProjectLinks
-Collection of external links with icons.
-
-**Props**:
-- `links` (required): Array of `{ label, url, type }` objects
-  - `type` options: "github" | "demo" | "docs" | "custom"
-- `layout` (optional): "horizontal" | "vertical"
-
-**Example**:
-```tsx
-<ProjectLinks
-  links={[
-    { label: "Live Demo", url: "https://...", type: "demo" },
-    { label: "GitHub", url: "https://github.com/...", type: "github" },
-  ]}
-/>
-```
+- `icon` (optional): An emoji
+- `variant` (optional): `default` or `highlighted` (coral border)
 
 ### Image Guidelines
 
-1. **Directory structure**: Store images at `public/images/projects/[project-name]/`
-2. **Naming convention**: Use descriptive names (`hero.png`, `dashboard-view.png`, `workflow-diagram.png`)
-3. **Formats**: PNG for screenshots, JPG for photos, SVG for diagrams
-4. **Sizes**: Aim for ~1200px width for retina displays (Next.js will optimize)
-5. **Optimization**: Next.js automatically optimizes images - no need for manual compression
+1. **Location**: `src/assets/projects/[project-name]/`
+2. **Naming**: Descriptive names (`home.png`, `dashboard-view.png`)
+3. **Formats**: PNG for screenshots, JPG for photos
+4. **Size**: Upload full size. The build converts images to optimized WebP, so no manual compression is needed.
 
 ### Content Writing Tips
 
@@ -326,36 +147,13 @@ Collection of external links with icons.
 - Focus: Practical capabilities and how to access it
 - Include: Screenshots, diagrams, or GIFs showing the product in action
 
-### Updating the Main Page
-
-After creating your project page, add a ProjectCard to the homepage (`app/page.tsx`):
-
-```tsx
-<div id="your-project">
-  <ProjectCard
-    title="Your Project"
-    subtitle="Optional"
-    description="Brief philosophical description"
-    link="/projects/your-project"
-    tags={["Tech", "Stack"]}
-    status="active"
-    imagePlaceholder="bg-gradient-to-br from-brand-green/20 to-brand-coral/20"
-  />
-</div>
-```
-
-Also add it to the Gallery dropdown in the navigation (both in `app/page.tsx` and `app/components/MDXLayout.tsx`).
-
 ## Tips
 
 - Keep content focused and readable
 - Use headings to structure your writing
-- Add code examples where relevant
-- Embed interactive components when needed
-- Preview changes locally with `npm run dev`
+- Preview changes locally with `pnpm dev`
 
 ## Examples
 
-See these files for reference:
-- `/app/manifesto/page.mdx` - Essay-style content
-- `/app/projects/taru/page.mdx` - Project documentation
+- `src/content/pages/manifesto.mdx` - Essay-style content
+- `src/content/projects/taru.mdx` - A project with several images

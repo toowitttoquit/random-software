@@ -15,7 +15,7 @@ Clean gallery aesthetic. Minimal, intentional, generous whitespace. The site fee
 Opacity variants used extensively: `text-base-text/70` for secondary text, `text-base-text/50` for tertiary, `/80` for body content.
 
 ## Typography
-- **Font**: Space Grotesk (variable: `--font-space-grotesk`)
+- **Font**: Space Grotesk, self-hosted via Fontsource (variable: `--font-space-grotesk`)
 - **Hero**: `text-hero` (4rem/64px, tight leading, slight negative tracking)
 - **Display**: `text-display` (3rem/48px)
 - **H1**: `text-h1` (2rem/32px)
@@ -44,17 +44,12 @@ Gallery-style generous spacing. Custom values:
 - Text links: `text-brand-green hover:text-brand-coral underline`
 - Arrow links: `inline-flex items-center gap-2` with animated gap on hover
 
-### Status Badges (app/config/status.ts)
-- Active: green tint
-- Planned: coral tint
-- Archived: muted gray
-
 ## MDX Content Styling
-All MDX typography overrides in root `mdx-components.tsx`:
-- H2 gets a `border-b-2 border-brand-green/20` underline
+All Markdown typography lives in the `.prose-site` block of `src/styles/globals.css`:
 - Blockquotes use `border-l-4 border-brand-coral`
 - Code uses `bg-base-text/5 text-brand-green`
 - Lists restore disc/decimal markers (Tailwind resets them)
+- Components placed inside Markdown carry `not-prose` so these rules skip them
 
 ## Global CSS Notes (globals.css)
 - All elements get smooth 200ms transitions on color/bg/border/transform/opacity/shadow
